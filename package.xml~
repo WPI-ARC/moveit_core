@@ -70,8 +70,4 @@
   <run_depend>trajectory_msgs</run_depend>
   <run_depend>visualization_msgs</run_depend>  
 
-  <export>
-    <cpp cflags="-I${prefix}/include" lflags="-L${prefix}/lib"/>
-  </export>
-
 </package>

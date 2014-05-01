@@ -1087,17 +1087,10 @@ bool IterativeParabolicTimeParameterization::computeTimeStamps(robot_trajectory:
   std::vector<double> time_diff(num_points-1, 0.0);       // the time difference between adjacent points
 	//printf("\n");
 
-
-
-	//applyRML(trajectory, active_joints, limits, time_diff);
-  applyVelocityConstraints(trajectory, active_joints, limits, time_diff);
-  applyAccelerationConstraints(trajectory, active_joints, limits, time_diff);
-  updateTrajectory(trajectory, active_joints, time_diff);
-
 	printf("ITERATIVE TIME !!!!!!!!!!!!!!!!!!!!!!11\n");
 	for (int waypoint_index = 0; waypoint_index < 10; waypoint_index++)
 	{
-		printf("Velocity %d: ", waypoint_index);
+		printf("Velocity Limit %d: ", waypoint_index);
 		printf("(  ");
 		for (int joint_index = 0; joint_index < 7; joint_index++)
 		{
@@ -1106,11 +1099,11 @@ bool IterativeParabolicTimeParameterization::computeTimeStamps(robot_trajectory:
 		printf(")  \n");
 	}
 
+	//applyRML(trajectory, active_joints, limits, time_diff);
+  //applyVelocityConstraints(trajectory, active_joints, limits, time_diff);
+  //applyAccelerationConstraints(trajectory, active_joints, limits, time_diff);
+  //updateTrajectory(trajectory, active_joints, time_diff);
   return success;
-
-
-
-
 }
 
 }

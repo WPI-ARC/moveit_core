@@ -51,7 +51,7 @@ class IterativeParabolicTimeParameterization
 {
 public:
   IterativeParabolicTimeParameterization(unsigned int max_iterations = 100,
-                                         double max_time_change_per_it = 0.2);
+                                         double max_time_change_per_it = .01);
   ~IterativeParabolicTimeParameterization();
 
   bool computeTimeStamps(robot_trajectory::RobotTrajectory& trajectory) const;
@@ -71,10 +71,8 @@ private:
                                     const std::vector<moveit_msgs::JointLimits>& limits,
                                     std::vector<double> & time_diff) const;
 
-  double findT1( const double d1, const double d2, double t1, const double t2, const double a_max, const int j, const int index_check, const int point_number) const;
-  double findT2( const double d1, const double d2, const double t1, double t2, const double a_max, const int j, const int index_check) const;
-  double JerkfindT2(const double dq1, const double dq2, const double dt1, double dt2, const double jerk_max, const double q1, const double q2, const double q3) const;
-	double JerkfindT1(const double dq1, const double dq2, double dt1, const double dt2, const double jerk_max) const;
+  double findT1( const double d1, const double d2, double t1, const double t2, const double a_max) const;
+  double findT2( const double d1, const double d2, const double t1, double t2, const double a_max) const;
 
   void printStats(const trajectory_msgs::JointTrajectory& trajectory,
                   const std::vector<moveit_msgs::JointLimits>& limits) const;

@@ -43,30 +43,8 @@
 #include <moveit/robot_state/conversions.h>
 
 
-//reflexxes includes
-//#include <ReflexxesAPI.h>
-//#include <RMLPositionFlags.h>
-//#include <RMLPositionInputParameters.h>
-//#include <RMLPositionOutputParameters.h>
-
-
-
 
 #include "ros/ros.h"
-
-//#define CYCLE_TIME_IN_SECONDS                   0.001
-//#define NUMBER_OF_DOFS                          1
-
-//int                         ResultValue                 =   0       ;
-
-//ReflexxesAPI                *RML                        =   NULL    ;
-  
-//RMLPositionInputParameters  *IP                         =   NULL    ;
-    
-//RMLPositionOutputParameters *OP                         =   NULL    ;
-    
-//RMLPositionFlags            Flags                                   ;
-
 
 
 namespace trajectory_processing
@@ -89,139 +67,7 @@ double velocity_limit_factor=1;
 
 
 
-/*void applyRML(robot_trajectory::RobotTrajectory& rob_trajectory,
-              const std::vector<std::string>& active_joints,
-              const std::vector<moveit_msgs::JointLimits>& limits,
-              std::vector<double> &time_diff) 
-{
-  RML =   new ReflexxesAPI(                   NUMBER_OF_DOFS
-                                          ,   CYCLE_TIME_IN_SECONDS   );  
-  IP  =   new RMLPositionInputParameters(     NUMBER_OF_DOFS          );   
-  OP  =   new RMLPositionOutputParameters(    NUMBER_OF_DOFS          );
-  IP->SelectionVector->VecData            [0] =   true        ;
 
-	bool startPoint_found = false;
-	bool endPoint_found = false;
-	bool direction_up = false;
-
-	double startPoint_state;
-	double endPoint_state;
-
-
-  const robot_model::JointModelGroup *group = rob_trajectory.getGroup();
-  const std::vector<const robot_model::JointModel*> &jnt = group->getJointModels();
-  const unsigned int num_points = rob_trajectory.getWayPointCount();
-  const unsigned int num_joints = group->getVariableCount();
-  robot_state::RobotStatePtr curr_waypoint;
-  robot_state::RobotStatePtr next_waypoint;
-  std::map<std::string, double> curr_state_values;
-  std::map<std::string, double> next_state_values;
-	double dq1;
-  double dq2;
-
-	for(unsigned int joint=0; joint < active_joints.size(); joint++)
-  {
-		startPoint_found = false;
-		endPoint_found = false;
-
-    for ( unsigned int i=0; i<num_points; i++ )
-    {
-      double v_max = 1.0;
-			
-			if (i != num_points - 1)
-			{
-    		curr_waypoint = rob_trajectory.getWayPointPtr(i);
-    		next_waypoint = rob_trajectory.getWayPointPtr(i+1);
-    		curr_waypoint->getStateValues(curr_state_values);
-    		next_waypoint->getStateValues(next_state_values);
-      	dq1 = curr_state_values[active_joints[joint]];
-      	dq2 = next_state_values[active_joints[joint]];
-			}
-			else 
-			{
-				curr_waypoint = rob_trajectory.getWayPointPtr(i);  		
-    		curr_waypoint->getStateValues(curr_state_values);
-				dq1 = curr_state_values[active_joints[joint]];
-			}
-
-
-
-			if (i == 0)
-			{
-				startPoint_found = true;
-				startPoint_state = dq1;	
-				if ( (dq2 - dq1) >= 0)
-				{
-					direction_up = true;
-				}
-				else
-				{
-					direction_up = false;
-				}
-			}
-			else if (i == num_points - 1)
-			{
-				endPoint_found = true;
-				endPoint_state = dq1;
-			}
-			else
-			{
-				if (direction_up == true)
-				{
-					if ((dq2 - dq1) < 0)
-					{
-						endPoint_found = true;
-						endPoint_state = dq1;
-					}
-					else
-					{
-						endPoint_found = false;		
-					}
-				}
-				else
-				{
-					if ((dq2 - dq1) >= 0)
-					{
-						endPoint_found = true;
-						endPoint_state = dq1;
-					}
-					else
-					{
-						endPoint_found = false;		
-					}
-				}
-				
-
-			}
-			
-			if (endPoint_found == true)
-			{
-				printf("--------------------------------Joint %d-------------------------------------\n", joint);
-				printf("\ni: %d, startPoint_state: %f , endPoint_state: %f \n", i, startPoint_state, endPoint_state);
-				if (i != num_points - 1)
-				{
-
-					if ( (dq2 - dq1) >= 0)
-					{
-						direction_up = true;
-					}
-					else
-					{
-						direction_up = false;
-					}
-				}
-				if (i != num_points - 1)
-				{
-					startPoint_state = endPoint_state;
-				}
-			}
-
-    }
-  }
-
-
-	
-}*/
 
 
 
@@ -388,8 +234,8 @@ double IterativeParabolicTimeParameterization::findT1( const double dq1,
                                                        const double a_max,
 																												const int joint_number, const int index_check, const int point_number) const
 {
-	//printf("joint_number: %d    ----------------------------------------------------------------", joint_number);
-	//printf("index_%d: \n", index_check);
+	printf("joint_number: %d    ----------------------------------------------------------------", joint_number);
+	printf("index_%d: \n", index_check);
 	bool ignore = false;
   const double mult_factor_situation_1 = 1.01;
 	const double mult_factor_situation_2 = 0.99;
@@ -399,12 +245,12 @@ double IterativeParabolicTimeParameterization::findT1( const double dq1,
 	double jerk = (a-prev_a[joint_number])/(dt1);
 	bool ignore_acc_process = false;
 	
-	//printf("\n");
-	//printf("Before findT1 processing v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
-	//printf("\n");
+	printf("\n");
+	printf("Before findT1 processing v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
+	printf("\n");
 	if (std::abs(jerk) > jerkLimit[joint_number] && std::abs(a) > std::abs(prev_a[joint_number]) && a*prev_a[joint_number] >=0 )
 	{
-		//printf("findT1 jerk called\n");
+		printf("findT1 jerk called\n");
   	while( (std::abs( a ) > a_max || std::abs( jerk ) >  jerkLimit[joint_number]) && ignore == false)
   	{
   	  v1 = (dq1)/dt1;
@@ -418,7 +264,7 @@ double IterativeParabolicTimeParameterization::findT1( const double dq1,
   	  	a = 2.0*(v2-v1)/(dt1+dt2);
 			}
 			jerk = (a-prev_a[joint_number])/(dt1);
-			//printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
+			printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
 			if (std::abs(v2) < std::abs(v1))
 			{
   	  	dt1 *= mult_factor_situation_1;
@@ -431,7 +277,7 @@ double IterativeParabolicTimeParameterization::findT1( const double dq1,
 	}
 	else
 	{
-		//printf("findT1 acceleration called\n");
+		printf("findT1 acceleration called\n");
   	while( std::abs( a ) > a_max && ignore_acc_process == false)
   	{
   	  v1 = (dq1)/dt1;
@@ -445,7 +291,7 @@ double IterativeParabolicTimeParameterization::findT1( const double dq1,
   	  	a = 2.0*(v2-v1)/(dt1+dt2);
 			}
 			
-			//printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
+			printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
 			if (std::abs(v2) < std::abs(v1))
 			{
   	  	dt1 *= mult_factor_situation_1;
@@ -500,8 +346,8 @@ double IterativeParabolicTimeParameterization::findT2(const double dq1,
                                                       const double a_max,
 																											const int joint_number, const int index_check) const
 {
-	//printf("joint_number: %d    ----------------------------------------------------------------", joint_number);
-	//printf("index_%d: \n", index_check);
+	printf("joint_number: %d    ----------------------------------------------------------------", joint_number);
+	printf("index_%d: \n", index_check);
   const double mult_factor_situation_1 = 1.01;
 	const double mult_factor_situation_2 = 0.99;
   double v1 = (dq1)/dt1;
@@ -511,12 +357,12 @@ double IterativeParabolicTimeParameterization::findT2(const double dq1,
 	bool ignore = false;
 	bool ignore_acc_process = false;
   //printf("findT2\n");
-	//printf("\n");
-	//printf("Before findT2 processing v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
-	//printf("\n");
+	printf("\n");
+	printf("Before findT2 processing v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
+	printf("\n");
 	if (std::abs(jerk) > jerkLimit[joint_number] && std::abs(a) > std::abs(prev_a[joint_number]) && (a*prev_a[joint_number] >=0 ))
 	{
-		//printf("findT2 jerk called\n");
+		printf("findT2 jerk called\n");
   	while( (std::abs( a ) > a_max || std::abs( jerk ) >  jerkLimit[joint_number] ) && ignore == false)
   	{
 			if (joint_number == 0)
@@ -534,7 +380,7 @@ double IterativeParabolicTimeParameterization::findT2(const double dq1,
   	  	a = 2.0*(v2-v1)/(dt1+dt2);
 			}
 			jerk = (a-prev_a[joint_number])/(dt2);
-			//printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
+			printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
 			if (std::abs(v2) > std::abs(v1))
 			{
   	  	dt2 *= mult_factor_situation_1;
@@ -547,7 +393,7 @@ double IterativeParabolicTimeParameterization::findT2(const double dq1,
 	}
 	else
 	{
-		//printf("findT2 acceleration called\n");
+		printf("findT2 acceleration called\n");
   	while( std::abs( a ) > a_max && ignore_acc_process == false )
   	{
   	  v1 = (dq1)/dt1;
@@ -560,7 +406,7 @@ double IterativeParabolicTimeParameterization::findT2(const double dq1,
 			{
   	  	a = 2.0*(v2-v1)/(dt1+dt2);
 			}
-			//printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
+			printf("v1: %f v2: %f a: %f prev_a: %f jerk: %f dt1: %f dt2: %f \n", v1, v2, a, prev_a[joint_number], jerk, dt1, dt2);
 			if (std::abs(v2) > std::abs(v1))
 			{
   	  	dt2 *= mult_factor_situation_1;
@@ -718,7 +564,7 @@ void updateTrajectory(robot_trajectory::RobotTrajectory& rob_trajectory,
         a = 0.0;
 				if (j == 0)
 				{
-					//printf("\n dt1 == 0 or dt2 == 0 \n");
+					printf("\n dt1 == 0 or dt2 == 0 \n");
 				}
       } 
       else 
@@ -766,7 +612,7 @@ void updateTrajectory(robot_trajectory::RobotTrajectory& rob_trajectory,
 }
 }
 
-// Applies Acceleration constraints and jerk constraints    it's only partial jerk limited. And it is only good for point to point motion. If there is inflextion point, it's not good.
+// Applies Acceleration constraints
 void IterativeParabolicTimeParameterization::applyAccelerationConstraints(robot_trajectory::RobotTrajectory& rob_trajectory,
                                                                           const std::vector<std::string>& active_joints,
                                                                           const std::vector<moveit_msgs::JointLimits>& limits,
@@ -801,7 +647,7 @@ void IterativeParabolicTimeParameterization::applyAccelerationConstraints(robot_
   {
     num_updates = 0;
     iteration++;
-		//printf("\n iteration: %d \n", iteration);
+		printf("\n iteration: %d \n", iteration);
     // In this case we iterate through the joints on the outer loop.
     // This is so that any time interval increases have a chance to get propogated through the trajectory
     for (unsigned int j = 0; j < num_joints ; ++j)
@@ -881,7 +727,7 @@ void IterativeParabolicTimeParameterization::applyAccelerationConstraints(robot_
             v2 = 0.0;
             a = 0.0;
 
-							//printf("1      dt1 == 0 || dt2 == 0 \n");
+							printf("1      dt1 == 0 || dt2 == 0 \n");
 
           } else {
             bool start_velocity = false;
@@ -930,7 +776,7 @@ void IterativeParabolicTimeParameterization::applyAccelerationConstraints(robot_
           {
             if(!backwards)
             {
-            
+              //dt2 = std::min( dt2+max_time_change_per_it_, findT2( q2-q1, q3-q2, dt1, dt2, a_max, j, index) );
 							double temp_findT2;
 							if (!backwards && index == 0)
 							{
@@ -965,7 +811,7 @@ void IterativeParabolicTimeParameterization::applyAccelerationConstraints(robot_
               v2 = 0.0;
               a = 0.0;
 
-								//printf("2      dt1 == 0 || dt2 == 0 \n");
+								printf("2      dt1 == 0 || dt2 == 0 \n");
 
             } else {
 							if (index == 0 && !backwards)
@@ -990,48 +836,78 @@ void IterativeParabolicTimeParameterization::applyAccelerationConstraints(robot_
             }
           }
 					
-
+					/*if (j==0 && iteration == 13)
+					{
+						printf("\n v1: %f v2: %f dt1: %f dt2: %f a: %f \n", v1, v2, dt1, dt2, a);		
+					}	*/				
 					
 					a_profile[index] = a;
+					//prev_a[j] = a;
 
+					/*double tempJerk;
+					tempJerk = 2.0*(a-prev_a)/(dt1+dt2);
+					if (std::abs(tempJerk) > jerkLimit[j] && std::abs(a) > std::abs(prev_a) && (a*prev_a >=0 ))
+					{
+
+            if(!backwards)
+            {
+              dt2 = std::min( dt2+max_time_change_per_it_, JerkfindT2( q2-q1, q3-q2, dt1, dt2, jerkLimit[j] , q1, q2, q3) );
+              time_diff[index] = dt2;
+            }
+            else
+            {
+              dt1 = std::min( dt1+max_time_change_per_it_, JerkfindT1( q2-q1, q3-q2, dt1, dt2, jerkLimit[j]) );
+              time_diff[index-1] = dt1;
+            }
+										
+					}
+          v1 = (q2-q1)/dt1;
+          v2 = (q3-q2)/dt2;
+          a = 2*(v2-v1)/(dt1+dt2);
+					prev_a = a;*/
         }
+				/*if (j == 0)
+				{
+					printf("change direction \n");
+				}*/
 
 					if (!backwards)
 					{
-						//printf("forward  \n");
+						printf("forward  \n");
 					}
 					else
 					{	
-						//printf("backward \n");
+						printf("backward \n");
 					}
-					//printf("before processing   \n");
+					printf("before processing   \n");
 					for (int i=0; i<num_points	; i++)
 					{
-						//printf("%f ", a_profile_before[i]);
+						printf("%f ", a_profile_before[i]);
 					}
-					//printf("\n");
+					printf("\n");
 					for (int i=0; i<num_points-1	; i++)
 					{
-						//printf("%f ", time_diff_before[i]);
+						printf("%f ", time_diff_before[i]);
 					}
-					//printf("\n");
-					//printf("after processing   \n");
+					printf("\n");
+					printf("after processing   \n");
 					for (int i=0; i<num_points	; i++)
 					{
-						//printf("%f ", a_profile[i]);
+						printf("%f ", a_profile[i]);
 					}
-					//printf("\n");
+					printf("\n");
 					for (int i=0; i<num_points-1	; i++)
 					{
-						//printf("%f ", time_diff[i]);
+						printf("%f ", time_diff[i]);
 					}
-					//printf("\n");
-					//printf("-------------------------------------------\n");
+					printf("\n");
+					printf("-------------------------------------------\n");
 				
 
         backwards = !backwards;
       }
     }
+    //logDebug("applyAcceleration: num_updates=%i", num_updates);
   } while(num_updates > 0 && iteration < 1);
 }
 
@@ -1042,22 +918,15 @@ bool IterativeParabolicTimeParameterization::computeTimeStamps(robot_trajectory:
 {
 
 
-
-
   bool success = true;
   robot_state::RobotStatePtr curr_waypoint;
   const robot_state::JointState *jst;
 
-	//ros::param::get("/robot_description_planning/velocity_limit_factor", velocity_limit_factor);
+	ros::param::get("/robot_description_planning/velocity_limit_factor", velocity_limit_factor);
 	
-	//printf("\nvelocity_limit_factor:                   %f   \n",velocity_limit_factor);
+	printf("\nvelocity_limit_factor:                   %f   \n",velocity_limit_factor);
   if (trajectory.empty())
     return true;
-
-
-
-
-
 
   const robot_model::JointModelGroup *group = trajectory.getGroup();
   if (!group)
@@ -1073,8 +942,6 @@ bool IterativeParabolicTimeParameterization::computeTimeStamps(robot_trajectory:
       logWarn("Time parametrization works for single-dof joints only");
       return false;
     }
-
-	
   
   const std::vector<moveit_msgs::JointLimits> &limits = trajectory.getGroup()->getVariableLimits();
   const std::vector<std::string> &active_joints = group->getJointModelNames();
@@ -1083,34 +950,13 @@ bool IterativeParabolicTimeParameterization::computeTimeStamps(robot_trajectory:
   trajectory.unwind();
 
   const std::size_t num_points = trajectory.getWayPointCount();
-	//printf("number of way points: %d \n", num_points);
+	printf("number of way points: %d \n", num_points);
   std::vector<double> time_diff(num_points-1, 0.0);       // the time difference between adjacent points
-	//printf("\n");
-
-
-
-	//applyRML(trajectory, active_joints, limits, time_diff);
+	printf("\n");
   applyVelocityConstraints(trajectory, active_joints, limits, time_diff);
   applyAccelerationConstraints(trajectory, active_joints, limits, time_diff);
   updateTrajectory(trajectory, active_joints, time_diff);
-
-	printf("ITERATIVE TIME !!!!!!!!!!!!!!!!!!!!!!11\n");
-	for (int waypoint_index = 0; waypoint_index < 10; waypoint_index++)
-	{
-		printf("Velocity %d: ", waypoint_index);
-		printf("(  ");
-		for (int joint_index = 0; joint_index < 7; joint_index++)
-		{
-			printf("%8.3lf  ",trajectory.getWayPointPtr(waypoint_index)->getJointState(active_joints[joint_index])->getVelocities()[0]);
-		}
-		printf(")  \n");
-	}
-
   return success;
-
-
-
-
 }
 
 }
